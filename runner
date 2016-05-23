@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+localNpm() { (PATH=$(npm bin):$PATH; eval $@; ) }
+
+case $1 in
+  "karma")
+    if [[ $2 == "--once" ]] || [[ $2 == "-o" ]]; then
+      localNpm karma start --single-run
+    else
+      localNpm karma start
+    fi
+  ;;
+  "server") localNpm webpack-dev-server
+  ;;
+  *) echo "Not a valid command"
+esac
