@@ -15,6 +15,7 @@ module.exports = function(config) {
       noInfo: true
     },
     reporters: ['mocha'],
+    reportSlowerThan: 5,
     plugins: [
       require('karma-babel-preprocessor'),
       require('karma-webpack'),
