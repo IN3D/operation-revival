@@ -11,6 +11,15 @@ case $1 in
       localNpm karma start
     fi
   ;;
+  "test")
+      if [[ $2 == "--watch" ]] || [[ $2 == "-w" ]]; then
+        localNpm mocha --colors --watch
+      elif [[ $2 == "--ci" ]] || [[ $2 == "-c" ]]; then
+        localNpm mocha --colors --check-leaks --slow 10
+      else
+        localNpm mocha --colors
+      fi
+  ;;
   "server") localNpm webpack-dev-server
   ;;
   *) echo "Not a valid command"
