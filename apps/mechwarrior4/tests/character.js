@@ -34,30 +34,30 @@ describe('A Character', function() {
       this.character.skills = _.filter(this.character.skills, (s) => {
         return s.skill.subSkill !== 'English'
       })
-      expect(this.character.isValid()).to.equal(false)
+      expect(this.character.valid()).to.equal(false)
     })
 
     it('should be invalid if the character is not bilingual', function() {
       this.character.skills = _.filter(this.character.skills, (s) => {
         return s.skill.subSkill !== 'Spanish'
       })
-      expect(this.character.isValid()).to.equal(false)
+      expect(this.character.valid()).to.equal(false)
     })
 
     it('should be invalid if the character has no perception', function() {
       this.character.skills = _.filter(this.character.skills, (s) => {
         return s.skill.name !== 'Perception'
       })
-      expect(this.character.isValid()).to.equal(false)
+      expect(this.character.valid()).to.equal(false)
     })
 
     it('should be invalid if the character has an attribute below 1', function() {
       this.character.attributes.STR = 0
-      expect(this.character.isValid()).to.equal(false)
+      expect(this.character.valid()).to.equal(false)
     })
 
     it('should be valid if it has all required skills and attributes', function() {
-      expect(this.character.isValid()).to.equal(true)
+      expect(this.character.valid()).to.equal(true)
     })
   })
 

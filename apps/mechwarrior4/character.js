@@ -30,27 +30,28 @@ module.exports = class Character {
     this.xp -= amount
   }
 
-  findSkill(identifier, order) {
-    let skills = _(this.skills).filter(identifier)
-    if(order) return skills.orderBy(order).first()
-    else return skills.first()
+  findSkill(name, subSkill) {
+    if(subSkill) {
+      return _(this.skills).filter((s) => {
+        return s.skill.name === name && s.skill.subSkill === subSkill
+      }).first()
+    } else {
+      return _(this.skills).filter((s) => s.skill.name === name).first()
+    }
   }
 
-  isValid() {
+  valid() {
     let invalidAttributes = _.pickBy(this.attributes, (v, k) => v === 0)
-    let englishSkill = this.findSkill(
-      (s) => _.isEqual(s.skill, { name: 'Language', subSkill: 'English' }))
-    let languageSkill = this.findSkill(
-      (s) => s.skill.name === 'Language' && s.skill.subSkill !== 'English',
-      (s) => s.xp, 'desc')
-    let perceptionSkill = this.findSkill((s) => s.skill.name === 'Perception')
-
-    let passableEnglish = (englishSkill !== undefined && englishSkill.xp >= 20)
-    let basicPerception = (perceptionSkill !== undefined && perceptionSkill.xp >= 10)
-    let secondLanguage = (languageSkill !== undefined && languageSkill.xp >= 20)
-    return (passableEnglish &&
-            secondLanguage &&
-            basicPerception &&
+    let englishSkill = this.findSkill('Language', 'English')
+    let perceptionSkill = this.findSkill('Perception')
+    let languageSkill = _(this.skills)
+        .filter((s) => {
+          return s.skill.name === 'Language' && s.skill.subSkill !== 'English'
+        })
+        .orderBy((s) => s.xp, 'desc').first()
+    return ((englishSkill !== undefined && englishSkill.xp >= 20) &&
+            (perceptionSkill !== undefined && perceptionSkill.xp >= 10) &&
+            (languageSkill !== undefined && languageSkill.xp >= 20) &&
             _.isEqual(invalidAttributes, {}))
   }
 }
