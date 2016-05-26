@@ -62,11 +62,6 @@ module.exports = class Character {
     let invalidAttributes = _.pickBy(this.attributes, (v, k) => v < 100)
     let englishSkill = this.findSkill('Language', 'English')
     let perceptionSkill = this.findSkill('Perception')
-    let languageSkill = _(this.skills)
-        .filter((s) => {
-          return s.skill.name === 'Language' && s.skill.subSkill !== 'English'
-        })
-        .orderBy((s) => s.xp, 'desc').first()
     return ((englishSkill !== undefined && englishSkill.xp >= 20) &&
             (perceptionSkill !== undefined && perceptionSkill.xp >= 10) &&
             (this.validSecondLanguage()) &&
