@@ -5,10 +5,10 @@ module.exports = function(config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha'],
     files: [
-      './test/*'
+      './apps/**/tests/*'
     ],
     preprocessors: {
-      './test/*': ['babel', 'webpack']
+      './apps/**/tests/*': ['babel', 'webpack']
     },
     webpack: webpackConfig,
     webpackMiddleware: {
