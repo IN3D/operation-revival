@@ -15,9 +15,19 @@ describe('A Character', function() {
   })
 
   it('should spend 100 XP to increase an attribute to 1', function() {
-    this.character.increaseAttribute('STR', 1)
-    expect(this.character.attributes['STR']).to.equal(1)
+    this.character.increaseAttribute('STR', 100)
+    expect(this.character.attributes['STR']).to.equal(100)
     expect(this.character.xp).to.equal(4900)
+  })
+
+  it('should have an attribute value of 1, if 100 XP has been spent on it', function() {
+    this.character.increaseAttribute('STR', 100)
+    expect(this.character.attribute('STR')).to.equal(1)
+  })
+
+  it('should have an attribute value of 3, if 399 XP has been spent on it', function() {
+    this.character.increaseAttribute('STR', 399)
+    expect(this.character.attribute('STR')).to.equal(3)
   })
 
   describe('When validating the Universal Fixed Experience Points', function() {

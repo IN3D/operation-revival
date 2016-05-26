@@ -18,9 +18,13 @@ module.exports = class Character {
     this.concept = data.concept
   }
 
+  attribute(name) {
+    return _.floor(this.attributes[name] / 100)
+  }
+
   increaseAttribute(attr, amount) {
     this.attributes[attr] += amount
-    this.xp -= (amount * 100)
+    this.xp -= amount
   }
 
   increaseSkill(skill, amount) {
