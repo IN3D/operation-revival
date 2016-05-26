@@ -76,8 +76,12 @@ module.exports = class Character {
     if(langs.length === 0) {
       return true
     } else {
+      let any = _.includes(langs, '*')
       let secondLanguage = _(this.skills)
-          .filter((s) => s.skill.name === 'Language' && _.includes(langs, s.skill.subSkill))
+          .filter((s) => {
+            if(any) return s.skill.name === 'Language'
+            else return (s.skill.name === 'Language' && (_.includes(langs, s.skill.subSkill)))
+          })
           .orderBy((s) => s.xp, 'desc')
           .first()
       return secondLanguage !== undefined && secondLanguage.xp >= 20

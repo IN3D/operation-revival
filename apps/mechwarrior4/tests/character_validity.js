@@ -11,6 +11,7 @@ describe("A Character's validity", function() {
       this.character.increaseAttribute(k, 100)
     })
     this.character.increaseSkill({ name: 'Language', subSkill: 'English' }, 20)
+    this.character.increaseSkill({ name: 'Language', subSkill: 'Spanish' }, 20)
     this.character.increaseSkill({ name: 'Perception' }, 10)
     this.character.affiliate(new Affiliation({
       cost: 150,
@@ -28,7 +29,6 @@ describe("A Character's validity", function() {
   })
 
   it('should be invalid if the character does not know a second affiliation language', function() {
-    this.character.increaseSkill({ name: 'Language', subSkill: 'Spanish' }, 20)
     expect(this.character.valid()).to.equal(false)
   })
 
@@ -46,6 +46,11 @@ describe("A Character's validity", function() {
 
   it('should be valid if it has all required skills and attributes', function() {
     this.character.increaseSkill({ name: 'Language', subSkill: 'Cantonese' }, 20)
+    expect(this.character.valid()).to.equal(true)
+  })
+
+  it('should count any language as valid, if an affiliation have a value of * (i.e. any)', function() {
+    this.character.affiliations[0].secondaryLanguages.push('*')
     expect(this.character.valid()).to.equal(true)
   })
 
