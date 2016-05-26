@@ -31,47 +31,6 @@ describe('A Character', function() {
     expect(this.character.attribute('STR')).to.equal(3)
   })
 
-  describe('When validating the Universal Fixed Experience Points', function() {
-    beforeEach(function() {
-      _.forOwn(this.character.attributes, (v, k) => {
-        this.character.increaseAttribute(k, 1)
-      })
-      this.character.increaseSkill({ name: 'Language', subSkill: 'English' }, 20)
-      this.character.increaseSkill({ name: 'Language', subSkill: 'Spanish' }, 20)
-      this.character.increaseSkill({ name: 'Perception' }, 10)
-    })
-
-    it('should be invalid if the character does not know English', function() {
-      this.character.skills = _.filter(this.character.skills, (s) => {
-        return s.skill.subSkill !== 'English'
-      })
-      expect(this.character.valid()).to.equal(false)
-    })
-
-    it('should be invalid if the character is not bilingual', function() {
-      this.character.skills = _.filter(this.character.skills, (s) => {
-        return s.skill.subSkill !== 'Spanish'
-      })
-      expect(this.character.valid()).to.equal(false)
-    })
-
-    it('should be invalid if the character has no perception', function() {
-      this.character.skills = _.filter(this.character.skills, (s) => {
-        return s.skill.name !== 'Perception'
-      })
-      expect(this.character.valid()).to.equal(false)
-    })
-
-    it('should be invalid if the character has an attribute below 1', function() {
-      this.character.attributes.STR = 0
-      expect(this.character.valid()).to.equal(false)
-    })
-
-    it('should be valid if it has all required skills and attributes', function() {
-      expect(this.character.valid()).to.equal(true)
-    })
-  })
-
   describe('When adding skills', function() {
     beforeEach(function() {
       this.skill = { name: 'Language', subSkill: 'English' }

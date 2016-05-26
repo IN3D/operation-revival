@@ -59,7 +59,7 @@ module.exports = class Character {
   }
 
   valid() {
-    let invalidAttributes = _.pickBy(this.attributes, (v, k) => v === 0)
+    let invalidAttributes = _.pickBy(this.attributes, (v, k) => v < 100)
     let englishSkill = this.findSkill('Language', 'English')
     let perceptionSkill = this.findSkill('Perception')
     let languageSkill = _(this.skills)
@@ -69,7 +69,23 @@ module.exports = class Character {
         .orderBy((s) => s.xp, 'desc').first()
     return ((englishSkill !== undefined && englishSkill.xp >= 20) &&
             (perceptionSkill !== undefined && perceptionSkill.xp >= 10) &&
-            (languageSkill !== undefined && languageSkill.xp >= 20) &&
+            (this.validSecondLanguage()) &&
             _.isEqual(invalidAttributes, {}))
+  }
+
+  validSecondLanguage() {
+    if(this.affiliations.length < 1) return false
+    let langs = []
+    _(this.affiliations).each((a) => langs = _.union(langs, a.languages()))
+    langs = _.filter(langs, (l) => l !== 'English')
+    if(langs.length === 0) {
+      return true
+    } else {
+      let secondLanguage = _(this.skills)
+          .filter((s) => s.skill.name === 'Language' && _.includes(langs, s.skill.subSkill))
+          .orderBy((s) => s.xp, 'desc')
+          .first()
+      return secondLanguage !== undefined && secondLanguage.xp >= 20
+    }
   }
 }

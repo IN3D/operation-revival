@@ -41,4 +41,10 @@ describe('An Affiliation', function() {
       { name: 'STR', value: 25 }
     ])
   })
+
+  it("should return a union array of all it's languages", function() {
+    expect(this.affiliation.languages()).to.deep.equal([
+      'English', 'French', 'German', 'Hindi', 'Russian'
+    ])
+  })
 })
