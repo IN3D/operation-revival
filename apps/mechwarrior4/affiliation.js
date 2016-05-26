@@ -3,6 +3,7 @@ module.exports = class Affiliation {
     this.cost = data.cost
     this.primaryLanguage = data.primaryLanguage
     this.secondaryLanguages = data.secondaryLanguages
+    this.attributes = data.attributes
   }
 
   valid() {

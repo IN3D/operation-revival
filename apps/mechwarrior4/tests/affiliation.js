@@ -7,7 +7,8 @@ describe('An Affiliation', function() {
     this.affiliation = new Affiliation({
       cost: 150,
       primaryLanguage: 'English',
-      secondaryLanguages: ['French', 'German', 'Hindi', 'Russian']
+      secondaryLanguages: ['French', 'German', 'Hindi', 'Russian'],
+      attributes: [{ name: 'STR', value: 25 }]
     })
   })
   it('should have a cost to take it', function() {
@@ -33,5 +34,11 @@ describe('An Affiliation', function() {
     })
     expect(aff.secondaryLanguages).to.deep.equal([])
     expect(this.affiliation.valid()).to.equal(true)
+  })
+
+  it('should have attributes', function() {
+    expect(this.affiliation.attributes).to.deep.equal([
+      { name: 'STR', value: 25 }
+    ])
   })
 })

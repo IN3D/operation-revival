@@ -1,5 +1,6 @@
 let expect = require('chai').expect
 let Character = require('../character.js')
+let Affiliation = require('../affiliation.js')
 
 describe('A Character', function() {
   beforeEach(function() {
@@ -92,6 +93,32 @@ describe('A Character', function() {
         xp: 40
       }])
       expect(this.character.xp).to.equal(4960)
+    })
+  })
+
+  describe('When choosing an affiliation', function() {
+    beforeEach(function() {
+      this.affiliation = new Affiliation({
+        cost: 150,
+        primaryLanguage: 'English',
+        secondaryLanguages: ['French', 'German', 'Hindi', 'Russian'],
+        attributes: [{ name: 'STR', value: 25 }]
+      })
+    })
+
+    it('should add the affiliation to the characters list of affiliations', function() {
+      expect(this.character.affiliate(this.affiliation)).to.deep.equal([this.affiliation])
+    })
+
+    it('should apply the attribute benefits of the affiliation', function() {
+      this.character.affiliate(this.affiliation)
+      expect(this.character.attributes['STR']).to.equal(25)
+    })
+
+    it('should apply the negative attributes of the affiliation', function() {
+      this.affiliation.attributes[0].value = -50
+      this.character.affiliate(this.affiliation)
+      expect(this.character.attributes['STR']).to.equal(-50)
     })
   })
 })

@@ -16,6 +16,20 @@ module.exports = class Character {
     }
     this.skills = []
     this.concept = data.concept
+    this.affiliations = []
+  }
+
+  affiliate(affiliation) {
+    this.affiliations.push(affiliation)
+    _(affiliation.attributes).each((a) => {
+      this.attributes[a.name] += a.value
+    })
+    return this.affiliations
+  }
+
+  debug_method(num) {
+    this.attributes['STR'] += num
+    return this.attributes['STR']
   }
 
   attribute(name) {
