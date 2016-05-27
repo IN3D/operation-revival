@@ -6,12 +6,12 @@ module.exports = class Skill {
   constructor(data) {
     this.name = data.name
     this.subSkills = data.subSkills
-    this.sub = ''
+    this.sub = (data.sub === undefined ? '' : data.sub)
     this.tiered = (data.tiered === undefined ? false : data.tiered)
     this.targetNumbers = data.targetNumbers
     this.complexities = data.complexities
     this.links = data.links
-    this.xp = data.xp
+    this.xp = (data.xp === undefined ? 0 : data.xp)
   }
 
   value(learning) {

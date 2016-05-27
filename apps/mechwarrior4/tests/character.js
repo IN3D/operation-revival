@@ -1,6 +1,7 @@
 let expect = require('chai').expect
 let Character = require('../character.js')
 let Affiliation = require('../affiliation.js')
+let Skill = require('../skill.js')
 
 describe('A Character', function() {
   beforeEach(function() {
@@ -33,24 +34,22 @@ describe('A Character', function() {
 
   describe('When adding skills', function() {
     beforeEach(function() {
-      this.skill = { name: 'Language', subSkill: 'English' }
+      this.skill = new Skill({name: 'Language', sub: 'English'})
       this.character.increaseSkill(this.skill, 20)
     })
 
     it('should add a skill, if it does not already have it', function() {
-      expect(this.character.skills).to.deep.equal([{
-        skill: this.skill,
-        xp: 20
-      }])
+      expect(this.character.skills).to.deep.equal([
+        new Skill({ name: 'Language', sub: 'English', xp: 20 })
+      ])
       expect(this.character.xp).to.equal(4980)
     })
 
     it('should increase a skill, if it already exists', function() {
       this.character.increaseSkill(this.skill, 20)
-      expect(this.character.skills).to.deep.equal([{
-        skill: this.skill,
-        xp: 40
-      }])
+      expect(this.character.skills).to.deep.equal([
+        new Skill({ name: 'Language', sub: 'English', xp: 40 })
+      ])
       expect(this.character.xp).to.equal(4960)
     })
   })

@@ -21,15 +21,8 @@ module.exports = class Character {
 
   affiliate(affiliation) {
     this.affiliations.push(affiliation)
-    _(affiliation.attributes).each((a) => {
-      this.attributes[a.name] += a.value
-    })
+    _(affiliation.attributes).each((a) => this.attributes[a.name] += a.value)
     return this.affiliations
-  }
-
-  debug_method(num) {
-    this.attributes['STR'] += num
-    return this.attributes['STR']
   }
 
   attribute(name) {
@@ -42,19 +35,22 @@ module.exports = class Character {
   }
 
   increaseSkill(skill, amount) {
-    let result = _.find(this.skills, (s) => _.isEqual(s.skill, skill))
-    if(result === undefined) this.skills.push({skill: skill, xp: amount})
-    else result.xp += amount
+    let result = this.findSkill(skill.name, skill.sub)
+    if(result === undefined) {
+      skill.xp = amount
+      this.skills.push(skill)
+    } else {
+      result.xp += amount
+    }
     this.xp -= amount
   }
 
   findSkill(name, subSkill) {
     if(subSkill) {
-      return _(this.skills).filter((s) => {
-        return s.skill.name === name && s.skill.subSkill === subSkill
-      }).first()
+      return _(this.skills).filter((s) => s.name === name && s.sub === subSkill)
+        .first()
     } else {
-      return _(this.skills).filter((s) => s.skill.name === name).first()
+      return _(this.skills).filter((s) => s.name === name).first()
     }
   }
 
@@ -79,8 +75,8 @@ module.exports = class Character {
       let any = _.includes(langs, '*')
       let secondLanguage = _(this.skills)
           .filter((s) => {
-            if(any) return s.skill.name === 'Language'
-            else return (s.skill.name === 'Language' && (_.includes(langs, s.skill.subSkill)))
+            if(any) return s.name === 'Language'
+            else return (s.name === 'Language' && (_.includes(langs, s.sub)))
           })
           .orderBy((s) => s.xp, 'desc')
           .first()

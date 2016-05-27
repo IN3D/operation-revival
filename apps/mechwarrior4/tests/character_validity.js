@@ -1,6 +1,7 @@
 let expect = require('chai').expect
 let Character = require('../character.js')
 let Affiliation = require('../affiliation.js')
+let Skill = require('../skill.js')
 
 
 // Universal Fixed Experience Points
@@ -10,9 +11,9 @@ describe("A Character's validity", function() {
     _.forOwn(this.character.attributes, (v, k) => {
       this.character.increaseAttribute(k, 100)
     })
-    this.character.increaseSkill({ name: 'Language', subSkill: 'English' }, 20)
-    this.character.increaseSkill({ name: 'Language', subSkill: 'Spanish' }, 20)
-    this.character.increaseSkill({ name: 'Perception' }, 10)
+    this.character.increaseSkill(new Skill({ name: 'Language', sub: 'English' }), 20)
+    this.character.increaseSkill(new Skill({ name: 'Language', sub: 'Spanish' }), 20)
+    this.character.increaseSkill(new Skill({ name: 'Perception' }), 10)
     this.character.affiliate(new Affiliation({
       cost: 150,
       primaryLanguage: 'Mandarin Chinese',
@@ -22,9 +23,7 @@ describe("A Character's validity", function() {
   })
 
   it('should be invalid if the character does not know English', function() {
-    this.character.skills = _.filter(this.character.skills, (s) => {
-      return s.skill.subSkill !== 'English'
-    })
+    this.character.skills = _.filter(this.character.skills, (s) => s.sub !== 'English')
     expect(this.character.valid()).to.equal(false)
   })
 
@@ -33,9 +32,7 @@ describe("A Character's validity", function() {
   })
 
   it('should be invalid if the character has no perception', function() {
-    this.character.skills = _.filter(this.character.skills, (s) => {
-      return s.skill.name !== 'Perception'
-    })
+    this.character.skills = _.filter(this.character.skills, (s) => s.name !== 'Perception')
     expect(this.character.valid()).to.equal(false)
   })
 
@@ -45,7 +42,7 @@ describe("A Character's validity", function() {
   })
 
   it('should be valid if it has all required skills and attributes', function() {
-    this.character.increaseSkill({ name: 'Language', subSkill: 'Cantonese' }, 20)
+    this.character.increaseSkill(new Skill({ name: 'Language', sub: 'Cantonese' }), 20)
     expect(this.character.valid()).to.equal(true)
   })
 
