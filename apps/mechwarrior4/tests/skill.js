@@ -17,6 +17,10 @@ describe('A Skill', function() {
     expect(this.skill.name).to.equal('Acrobatics')
   })
 
+  it('should be able to set a sub-skill', function() {
+    expect(this.skill.subSkill('Free-Fall')).to.equal('Free-Fall')
+  })
+
   it('can have a list of sub-skills', function() {
     expect(this.skill.subSkills).to.deep.equal(['Free-Fall', 'Gymnastics'])
   })

@@ -6,6 +6,7 @@ module.exports = class Skill {
   constructor(data) {
     this.name = data.name
     this.subSkills = data.subSkills
+    this.sub = ''
     this.tiered = (data.tiered === undefined ? false : data.tiered)
     this.targetNumbers = data.targetNumbers
     this.complexities = data.complexities
@@ -36,5 +37,9 @@ module.exports = class Skill {
       if(this.value(learning) <= 3) return this[skill][0]
       else return this[skill][1]
     }
+  }
+
+  subSkill(name) {
+    return this.sub = name
   }
 }
