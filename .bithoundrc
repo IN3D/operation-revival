@@ -45,6 +45,8 @@
     "**/extjs/src/**",
     "**/extjs/welcome/**",
     "bower_components/**"
+    "karma.conf.js",
+    "webpack.config.js"
   ],
   "test": [
     "**/test/**",
