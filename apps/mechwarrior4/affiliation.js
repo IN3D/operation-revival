@@ -1,19 +1,18 @@
 let _ = require('lodash')
 
-
 module.exports = class Affiliation {
-  constructor(data) {
+  constructor (data) {
     this.cost = data.cost
     this.primaryLanguage = data.primaryLanguage
     this.secondaryLanguages = data.secondaryLanguages
     this.attributes = data.attributes
   }
 
-  languages() {
+  languages () {
     return _.union([this.primaryLanguage], this.secondaryLanguages)
   }
 
-  valid() {
+  valid () {
     return ((this.cost !== 0 || this.cost !== undefined) &&
             (this.primaryLanguage !== '' || this.primaryLanguage !== undefined))
   }
