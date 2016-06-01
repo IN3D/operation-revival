@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
+  - Took code to "Standard" style
   - Created the Mechwarrior 4 (A Time of War) app
   - Included Karma for running tests, and Babel for compiling ES6 code
   - Began using a .editorconfig file
