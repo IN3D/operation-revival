@@ -93,7 +93,10 @@ module.exports = class Character {
 
   /**
    * Checks if the character is valid, based on attribute, skill, and language
-   * requirements.
+   * requirements. The requirements are that a character does not have any
+   * attribute with XP lower than 100. They have at least 20 XP spent on English,
+   * they have at least 10 XP spent on the perception skill, and they know a
+   * valid second language (if applicable).
    * @return {boolean} If the character is valid or not
    */
   valid () {
@@ -111,7 +114,8 @@ module.exports = class Character {
    * character knows a language, other than English, that belongs to one of their
    * affiliations. A character is allowed to not know a second language if their
    * affiliation(s) does not have any second languages, this exception is mostly
-   * for Clan characters.
+   * for Clan characters. If the character does not meet this exception, then
+   * they must have a non-English language skill with 20 XP or more.
    * @return {boolean} If the character has a valid second language
    */
   validSecondLanguage () {
