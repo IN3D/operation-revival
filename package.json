@@ -16,6 +16,12 @@
     "url": "https://github.com/MekManager/operation-revival/issues"
   },
   "homepage": "https://github.com/MekManager/operation-revival#readme",
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "mocha": true
+    }
+  },
   "dependencies": {
     "lodash": "^4.12.0"
   },
