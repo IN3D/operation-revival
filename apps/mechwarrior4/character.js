@@ -1,8 +1,7 @@
 let _ = require('lodash')
 
-
 module.exports = class Character {
-  constructor(data) {
+  constructor (data) {
     this.xp = 5000
     this.attributes = {
       STR: 0,
@@ -19,24 +18,24 @@ module.exports = class Character {
     this.affiliations = []
   }
 
-  affiliate(affiliation) {
+  affiliate (affiliation) {
     this.affiliations.push(affiliation)
-    _(affiliation.attributes).each((a) => this.attributes[a.name] += a.value)
+    _(affiliation.attributes).each((a) => (this.attributes[a.name] += a.value))
     return this.affiliations
   }
 
-  attribute(name) {
+  attribute (name) {
     return _.floor(this.attributes[name] / 100)
   }
 
-  increaseAttribute(attr, amount) {
+  increaseAttribute (attr, amount) {
     this.attributes[attr] += amount
     this.xp -= amount
   }
 
-  increaseSkill(skill, amount) {
+  increaseSkill (skill, amount) {
     let result = this.findSkill(skill.name, skill.sub)
-    if(result === undefined) {
+    if (result === undefined) {
       skill.xp = amount
       this.skills.push(skill)
     } else {
@@ -45,8 +44,8 @@ module.exports = class Character {
     this.xp -= amount
   }
 
-  findSkill(name, subSkill) {
-    if(subSkill) {
+  findSkill (name, subSkill) {
+    if (subSkill) {
       return _(this.skills).filter((s) => s.name === name && s.sub === subSkill)
         .first()
     } else {
@@ -54,7 +53,7 @@ module.exports = class Character {
     }
   }
 
-  valid() {
+  valid () {
     let invalidAttributes = _.pickBy(this.attributes, (v, k) => v < 100)
     let englishSkill = this.findSkill('Language', 'English')
     let perceptionSkill = this.findSkill('Perception')
@@ -64,18 +63,18 @@ module.exports = class Character {
             _.isEqual(invalidAttributes, {}))
   }
 
-  validSecondLanguage() {
-    if(this.affiliations.length < 1) return false
+  validSecondLanguage () {
+    if (this.affiliations.length < 1) return false
     let langs = []
-    _(this.affiliations).each((a) => langs = _.union(langs, a.languages()))
+    _(this.affiliations).each((a) => (langs = _.union(langs, a.languages())))
     langs = _.filter(langs, (l) => l !== 'English')
-    if(langs.length === 0) {
+    if (langs.length === 0) {
       return true
     } else {
       let any = _.includes(langs, '*')
       let secondLanguage = _(this.skills)
           .filter((s) => {
-            if(any) return s.name === 'Language'
+            if (any) return s.name === 'Language'
             else return (s.name === 'Language' && (_.includes(langs, s.sub)))
           })
           .orderBy((s) => s.xp, 'desc')
