@@ -4,7 +4,7 @@
   "description": "BattleTech Server Tool",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "karma start --single-run"
   },
   "repository": {
     "type": "git",
