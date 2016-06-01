@@ -1,6 +1,14 @@
 let _ = require('lodash')
 
+/**
+ * A class representing a  character in Mechwarrior 4 (i.e. A Time of War)
+ */
 module.exports = class Character {
+
+  /**
+   * Create a character.
+   * @param {object} data - JSON representation of character data
+   */
   constructor (data) {
     this.xp = 5000
     this.attributes = {
@@ -18,21 +26,45 @@ module.exports = class Character {
     this.affiliations = []
   }
 
+  /**
+   * Add an affiliation to a character.
+   * @param {Affiliation} affiliation - An affiliation instance
+   * @return {Affiliation[]} The list of affiliations of this character
+   */
   affiliate (affiliation) {
     this.affiliations.push(affiliation)
     _(affiliation.attributes).each((a) => (this.attributes[a.name] += a.value))
     return this.affiliations
   }
 
+  /**
+   * Returns the point value of the specified attribute.
+   * @param {string} name - The name of the attribute (i.e. 'STR', 'BOD', etc.)
+   * @return {number|NaN} An interger value, or NaN for non-existant attributes
+   */
   attribute (name) {
     return _.floor(this.attributes[name] / 100)
   }
 
+  /**
+   * Adds XP, to the specified attribute, and removes it from the XP pool.
+   * @param {string} attr - The attribute name
+   * @param {number} amount - The amount of XP
+   * @return {null} No return
+   */
   increaseAttribute (attr, amount) {
     this.attributes[attr] += amount
     this.xp -= amount
   }
 
+  /**
+   * Increases a skill by the specified amount of XP, and removes that XP from
+   * the characters XP pool. If the character does not already have the skill,
+   * it will be added to the character's skill list.
+   * @param {Skill} skill - The skill to be increased
+   * @param {number} amount - The amount of XP to increase by
+   * @return {null} No return
+   */
   increaseSkill (skill, amount) {
     let result = this.findSkill(skill.name, skill.sub)
     if (result === undefined) {
@@ -44,6 +76,12 @@ module.exports = class Character {
     this.xp -= amount
   }
 
+  /**
+   * Finds the specified skill of the given character.
+   * @param {string} name - The name of the skill
+   * @param {string} [subSkill] - The subSkill, if applicable
+   * @return {Skill|undefined} Returns the found skill, or undefined if not found
+   */
   findSkill (name, subSkill) {
     if (subSkill) {
       return _(this.skills).filter((s) => s.name === name && s.sub === subSkill)
@@ -53,6 +91,11 @@ module.exports = class Character {
     }
   }
 
+  /**
+   * Checks if the character is valid, based on attribute, skill, and language
+   * requirements.
+   * @return {boolean} If the character is valid or not
+   */
   valid () {
     let invalidAttributes = _.pickBy(this.attributes, (v, k) => v < 100)
     let englishSkill = this.findSkill('Language', 'English')
@@ -63,6 +106,14 @@ module.exports = class Character {
             _.isEqual(invalidAttributes, {}))
   }
 
+  /**
+   * Checks if the character has a valid second language. The rules are that a
+   * character knows a language, other than English, that belongs to one of their
+   * affiliations. A character is allowed to not know a second language if their
+   * affiliation(s) does not have any second languages, this exception is mostly
+   * for Clan characters.
+   * @return {boolean} If the character has a valid second language
+   */
   validSecondLanguage () {
     if (this.affiliations.length < 1) return false
     let langs = []
