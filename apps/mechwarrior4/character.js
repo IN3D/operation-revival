@@ -33,6 +33,7 @@ module.exports = class Character {
    */
   affiliate (affiliation) {
     this.affiliations.push(affiliation)
+    this.xp -= affiliation.cost
     _(affiliation.attributes).each((a) => (this.attributes[a.name] += a.value))
     return this.affiliations
   }
@@ -91,6 +92,32 @@ module.exports = class Character {
     } else {
       return _(this.skills).filter((s) => s.name === name).first()
     }
+  }
+
+  /**
+   * Removes the given affiliation from the character's list of affiliations
+   * @param {Affiliation} affiliation - The affiliation to be removed
+   * @return {Affiliation[]} The character's current list of affiliations
+   */
+  unaffiliate (affiliation) {
+    let index = _.findIndex(this.affiliations, (a) => _.isEqual(a, affiliation))
+    if (index !== -1) {
+      return this.unaffiliateIndex(index)
+    } else {
+      return this.affiliations
+    }
+  }
+
+  /**
+   * Removes the affiliation from the character at the specified index.
+   * @param {number} index - The index in the characters affiliation array
+   * @return {Affiliation[]} The character's current list of affiliations
+   */
+  unaffiliateIndex (index) {
+    let removed = _.pullAt(this.affiliations, index)[0]
+    this.xp += removed.cost
+    _(removed.attributes).each((a) => (this.attributes[a.name] -= a.value))
+    return this.affiliations
   }
 
   /**
