@@ -22,6 +22,11 @@ describe('A Character', function () {
     expect(this.character.xp).to.equal(4900)
   })
 
+  it('should not spend xp, when a non-existant attribute is specified', function () {
+    this.character.increaseAttribute('WAT', 100)
+    expect(this.character.xp).to.equal(5000)
+  })
+
   it('should have an attribute value of 1, if 100 XP has been spent on it', function () {
     this.character.increaseAttribute('STR', 100)
     expect(this.character.attribute('STR')).to.equal(1)
