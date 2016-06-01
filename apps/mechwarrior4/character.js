@@ -53,8 +53,10 @@ module.exports = class Character {
    * @return {null} No return
    */
   increaseAttribute (attr, amount) {
-    this.attributes[attr] += amount
-    this.xp -= amount
+    if (this.attributes[attr] !== undefined) {
+      this.attributes[attr] += amount
+      this.xp -= amount
+    }
   }
 
   /**
