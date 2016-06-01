@@ -69,6 +69,11 @@ describe('A Character', function () {
       })
     })
 
+    it("spend the character's xp to take the affiliation", function () {
+      this.character.affiliate(this.affiliation)
+      expect(this.character.xp).to.equal(4850)
+    })
+
     it('should add the affiliation to the characters list of affiliations', function () {
       expect(this.character.affiliate(this.affiliation)).to.deep.equal([this.affiliation])
     })
@@ -82,6 +87,21 @@ describe('A Character', function () {
       this.affiliation.attributes[0].value = -50
       this.character.affiliate(this.affiliation)
       expect(this.character.attributes['STR']).to.equal(-50)
+    })
+
+    it('should be able to remove an affiliation', function () {
+      let secondAffiliation = new Affiliation({
+        cost: 150,
+        primaryLanguage: 'Japanese',
+        secondaryLanguages: ['Arabic', 'English', 'Swedenese'],
+        attributes: [{ name: 'WIL', value: 50 }]
+      })
+      this.character.affiliate(this.affiliation)
+      this.character.affiliate(secondAffiliation)
+      this.character.unaffiliate(this.affiliation)
+      expect(this.character.xp).to.equal(4850)
+      expect(this.character.attributes['STR']).to.equal(0)
+      expect(this.character.affiliations).to.deep.equal([secondAffiliation])
     })
   })
 })
