@@ -1,4 +1,5 @@
 let _ = require('lodash')
+let Skill = require('./skill.js')
 
 module.exports = class Affiliation {
   constructor (data) {
@@ -6,6 +7,7 @@ module.exports = class Affiliation {
     this.primaryLanguage = data.primaryLanguage
     this.secondaryLanguages = data.secondaryLanguages
     this.attributes = data.attributes
+    this.skills = _(data.skills).map((s) => new Skill(s)).value()
   }
 
   languages () {
