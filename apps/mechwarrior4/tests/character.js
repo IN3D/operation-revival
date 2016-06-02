@@ -1,3 +1,4 @@
+let _ = require('lodash')
 let expect = require('chai').expect
 let Character = require('../character.js')
 let Affiliation = require('../affiliation.js')
@@ -65,13 +66,20 @@ describe('A Character', function () {
         cost: 150,
         primaryLanguage: 'English',
         secondaryLanguages: ['French', 'German', 'Hindi', 'Russian'],
-        attributes: [{ name: 'STR', value: 25 }]
+        attributes: [{ name: 'STR', value: 25 }],
+        skills: [{ name: 'Protocol', sub: 'FedSuns', xp: 10 }]
       })
     })
 
     it("spend the character's xp to take the affiliation", function () {
       this.character.affiliate(this.affiliation)
       expect(this.character.xp).to.equal(4850)
+    })
+
+    it('should get the xp bonuses from the affiliations skills', function () {
+      let skill = new Skill({ name: 'Protocol', sub: 'FedSuns', xp: 10 })
+      this.character.affiliate(this.affiliation)
+      expect(this.character.skills).to.deep.equal([skill])
     })
 
     it('should add the affiliation to the characters list of affiliations', function () {
@@ -90,11 +98,13 @@ describe('A Character', function () {
     })
 
     it('should be able to remove an affiliation', function () {
+      let skills = [{ name: 'Arts', sub: 'Oral Tradition', xp: 15 }]
       let secondAffiliation = new Affiliation({
         cost: 150,
         primaryLanguage: 'Japanese',
         secondaryLanguages: ['Arabic', 'English', 'Swedenese'],
-        attributes: [{ name: 'WIL', value: 50 }]
+        attributes: [{ name: 'WIL', value: 50 }],
+        skills: skills
       })
       this.character.affiliate(this.affiliation)
       this.character.affiliate(secondAffiliation)
@@ -102,6 +112,7 @@ describe('A Character', function () {
       expect(this.character.xp).to.equal(4850)
       expect(this.character.attributes['STR']).to.equal(0)
       expect(this.character.affiliations).to.deep.equal([secondAffiliation])
+      expect(this.character.skills).to.deep.equal(_(skills).map((s) => new Skill(s)).value())
     })
   })
 })

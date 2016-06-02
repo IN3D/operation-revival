@@ -35,6 +35,11 @@ module.exports = class Character {
     this.affiliations.push(affiliation)
     this.xp -= affiliation.cost
     _(affiliation.attributes).each((a) => (this.attributes[a.name] += a.value))
+    _(affiliation.skills).each((s) => {
+      let result = this.findSkill(s.name, s.sub)
+      if (result === undefined) this.skills.push(s)
+      else result.xp += s.xp
+    })
     return this.affiliations
   }
 
@@ -62,7 +67,7 @@ module.exports = class Character {
 
   /**
    * Increases a skill by the specified amount of XP, and removes that XP from
-   * the characters XP pool. If the character does not already have the skill,
+   * the character's XP pool. If the character does not already have the skill,
    * it will be added to the character's skill list.
    * @param {Skill} skill - The skill to be increased
    * @param {number} amount - The amount of XP to increase by
@@ -117,6 +122,16 @@ module.exports = class Character {
     let removed = _.pullAt(this.affiliations, index)[0]
     this.xp += removed.cost
     _(removed.attributes).each((a) => (this.attributes[a.name] -= a.value))
+    _(removed.skills).each((s) => {
+      let result = this.findSkill(s.name, s.sub)
+      if (result === undefined) {
+        s.xp *= -1
+        this.skills.push(s)
+      } else {
+        result.xp -= s.xp
+      }
+    })
+    _.remove(this.skills, (s) => s.xp === 0)
     return this.affiliations
   }
 
