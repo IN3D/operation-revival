@@ -13,8 +13,23 @@ describe('A Character', function () {
     expect(this.character.concept).to.equal('A test character')
   })
 
+  it('should not require a concept', function () {
+    let character = new Character({})
+    expect(character.concept).to.equal('')
+  })
+
   it('should start with 5,000 XP', function () {
     expect(this.character.xp).to.equal(5000)
+  })
+
+  it("should use an XP attribute if it's provided", function () {
+    let character = new Character({xp: 3000})
+    expect(character.xp).to.equal(3000)
+  })
+
+  it('should use attributes, if they are provided', function () {
+    let character = new Character({attributes: {STR: 100}})
+    expect(character.attribute('STR')).to.equal(1)
   })
 
   it('should spend 100 XP to increase an attribute to 1', function () {

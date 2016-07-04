@@ -10,8 +10,7 @@ module.exports = class Character {
    * @param {object} data - JSON representation of character data
    */
   constructor (data) {
-    this.xp = 5000
-    this.attributes = {
+    let defaultAttributes = {
       STR: 0,
       BOD: 0,
       RFL: 0,
@@ -21,9 +20,13 @@ module.exports = class Character {
       CHA: 0,
       EDG: 0
     }
-    this.skills = []
-    this.concept = data.concept
-    this.affiliations = []
+    this.xp = data.xp || 5000
+    this.attributes = _.defaults(data.attributes, defaultAttributes)
+    this.skills = _.isArray(data.skills) ?
+      _.map(data.skills, (s) => new Skill(s)) : []
+    this.concept = data.concept || ''
+    this.affiliations = _.isArray(data.affiliations) ?
+      _.map(data.affiliations, (a) => new Affiliation(a)) : []
   }
 
   /**
