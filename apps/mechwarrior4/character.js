@@ -1,4 +1,6 @@
 let _ = require('lodash')
+let Skill = require('./skill.js')
+let Affiliation = require('./affiliation.js')
 
 /**
  * A class representing a  character in Mechwarrior 4 (i.e. A Time of War)
@@ -22,11 +24,11 @@ module.exports = class Character {
     }
     this.xp = data.xp || 5000
     this.attributes = _.defaults(data.attributes, defaultAttributes)
-    this.skills = _.isArray(data.skills) ?
-      _.map(data.skills, (s) => new Skill(s)) : []
+    this.skills = _.isArray(data.skills)
+    ? _.map(data.skills, (s) => new Skill(s)) : []
     this.concept = data.concept || ''
-    this.affiliations = _.isArray(data.affiliations) ?
-      _.map(data.affiliations, (a) => new Affiliation(a)) : []
+    this.affiliations = _.isArray(data.affiliations)
+    ? _.map(data.affiliations, (a) => new Affiliation(a)) : []
   }
 
   /**
