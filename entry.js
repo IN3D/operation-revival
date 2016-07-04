@@ -1,5 +1,6 @@
 let angular = require('angular')
+let mechwarrior4 = require('./apps/mechwarrior4')
 
 angular.module('MekManager', [])
-  .factory('characterFactory', require('./apps/mechwarrior4/factories/character.js'))
-  .controller('characterController', require('./apps/mechwarrior4/controllers/character.js'))
+  .factory('characterFactory', mechwarrior4.factories.character)
+  .controller('characterController', mechwarrior4.controllers.character)
