@@ -44,7 +44,7 @@ module.exports = class Character {
     _(affiliation.attributes).each((a) => (this.attributes[a.name] += a.value))
     _(affiliation.skills).each((s) => {
       let result = this.findSkill(s.name, s.sub)
-      if (result === undefined) this.skills.push(s)
+      if (result === undefined) this.skills.push(new Skill(s))
       else result.xp += s.xp
     })
     return this.affiliations
@@ -133,7 +133,7 @@ module.exports = class Character {
       let result = this.findSkill(s.name, s.sub)
       if (result === undefined) {
         s.xp *= -1
-        this.skills.push(s)
+        this.skills.push(new Skill(s))
       } else {
         result.xp -= s.xp
       }
