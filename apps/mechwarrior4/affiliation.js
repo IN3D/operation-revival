@@ -3,6 +3,7 @@ let Skill = require('./skill.js')
 
 module.exports = class Affiliation {
   constructor (data) {
+    this.name = data.name
     this.cost = data.cost
     this.primaryLanguage = data.primaryLanguage
     this.secondaryLanguages = data.secondaryLanguages

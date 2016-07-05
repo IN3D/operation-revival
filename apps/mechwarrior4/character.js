@@ -22,6 +22,8 @@ module.exports = class Character {
       CHA: 0,
       EDG: 0
     }
+    this.firstName = data.firstName || ''
+    this.lastName = data.lastName || ''
     this.xp = data.xp || 5000
     this.attributes = _.defaults(data.attributes, defaultAttributes)
     this.skills = _.isArray(data.skills)
