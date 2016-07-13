@@ -22,6 +22,8 @@ module.exports = class Character {
       CHA: 0,
       EDG: 0
     }
+    this.firstName = data.firstName || ''
+    this.lastName = data.lastName || ''
     this.xp = data.xp || 5000
     this.attributes = _.defaults(data.attributes, defaultAttributes)
     this.skills = _.isArray(data.skills)
@@ -42,7 +44,7 @@ module.exports = class Character {
     _(affiliation.attributes).each((a) => (this.attributes[a.name] += a.value))
     _(affiliation.skills).each((s) => {
       let result = this.findSkill(s.name, s.sub)
-      if (result === undefined) this.skills.push(s)
+      if (result === undefined) this.skills.push(new Skill(s))
       else result.xp += s.xp
     })
     return this.affiliations
@@ -131,7 +133,7 @@ module.exports = class Character {
       let result = this.findSkill(s.name, s.sub)
       if (result === undefined) {
         s.xp *= -1
-        this.skills.push(s)
+        this.skills.push(new Skill(s))
       } else {
         result.xp -= s.xp
       }

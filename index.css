@@ -1,0 +1,20 @@
+nav.navbar {
+  border-radius: 0;
+  background-color: #1d2227;
+  color: #eff1f5;
+}
+
+.container .panel.panel-default .panel-heading {
+  background-color: #343d46;
+}
+.container .panel.panel-default .panel-heading h3.panel-title {
+  color: #eff1f5;
+}
+
+.container .panel.panel-default .panel-body.has-table {
+  padding: 15px 0 0;
+}
+
+.container .panel.panel-default .panel-body.has-table table {
+  margin-bottom: 0;
+}
