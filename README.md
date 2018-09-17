@@ -15,6 +15,8 @@
   <br>
 </h1>
 
+**Update:** This is now archived
+
 "Operation Revival" is a code name for an experimental BattleTech project.
 Depending on where it goes, it might get a more proper name.
 
